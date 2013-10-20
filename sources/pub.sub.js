@@ -1,5 +1,8 @@
 ﻿;(function ($) {
 
+    // Events storage
+    var observer = {};
+
     // Publish specific event: $.publish($.events.name, parameter1, parameter2, parameter3)
     $.publish = function (event) {
         if (arguments.length == 0) {
@@ -17,7 +20,8 @@
             observer[event] = [];
         }
 
-        $.each(observer[event], function() {
+        var events = observer[event].slice(0); // copy
+        $.each(events, function() {
             var context = this;
             
             if (this.context) {
@@ -54,6 +58,16 @@
         }
 
         observer[event].push(callback);
+    };
+
+    $.single = function (event, context, callback) {
+        $.unsubscribe(event);
+        $.subscribe.apply(this, arguments);
+    };
+    
+    $.resubscribe = function (event, context, callback) {
+        $.unsubscribe(event, callback);
+        $.subscribe.apply(this, arguments);
     };
 
     // Unsubscribe for event: $.unsubscribe($.events.name, function() {})
