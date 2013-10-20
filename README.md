@@ -1,6 +1,14 @@
-TODO:
+SourceBit.PubSub
+================
+Publish/Subscribe pattern implementation for javascript.
 
-Create description,
-Create demo,
-Correct unit test and implementation (remove jquery dependency),
-Add nuget package
+Subscribe to event:
+
+$.subscribe("event", function () { .... });
+
+$.single("event", this, this.function);
+
+$.publish("event")
+
+$.unsubscribe("event", function () { ... })
+

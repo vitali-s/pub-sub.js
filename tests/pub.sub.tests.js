@@ -1,4 +1,7 @@
-﻿module("module.communication");
+﻿///<reference path="~/Scripts/jquery-1.7.2.js"/>
+///<reference path="~/Scripts/Modules/module.communication.js"/>
+
+module("module.communication");
 
 test("GIVEN an event WHEN an event is published without name THEN exception is thrown", function () {
 
@@ -244,4 +247,19 @@ test("unsubscribe, subscribe and publish", function () {
     $.publish("event");
 
     ok(raised === true, "Fail");
+});
+
+test("unsubscribe inside of the publish callback", function () {
+    var func = function () {
+        $.unsubscribe("event", func);
+    };
+
+    var func2 = function() {
+        $.unsubscribe("event", func2);
+    };
+
+    $.subscribe("event", func);
+    $.subscribe("event", func2);
+
+    $.publish("event");
 });
